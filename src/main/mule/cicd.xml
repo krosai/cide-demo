@@ -15,6 +15,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<validation:is-not-null doc:name="Is not null" doc:id="7de1f3bc-c60c-4607-9e78-1cec212056f9" value="#[payload]"/>
 		<set-payload value="#[payload]" doc:name='"After" ' doc:id="70d41bc5-a4d7-4abc-9853-433ade6bcf14" />
 		<set-payload value='#[output appliation/json --- {"hello":"world again"}]' doc:name="Set Payload" doc:id="d25b9eaf-8cab-4b0c-a244-d5c760a855c1" />
+		<logger level="INFO" doc:name="Logger" doc:id="7487b58b-68c6-4d6b-8eb2-70fee8ec3eb5" message="#[payload]"/>
 		<error-handler >
 			
 			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a6859aca-a620-44ab-b098-844e70c5d314" >
