@@ -16,9 +16,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<set-payload value="#[payload]" doc:name='"After" ' doc:id="70d41bc5-a4d7-4abc-9853-433ade6bcf14" />
 		<set-payload value='#[output appliation/json --- {"hello":"world again"}]' doc:name="Set Payload" doc:id="d25b9eaf-8cab-4b0c-a244-d5c760a855c1" />
 		<error-handler >
-			<!-- <on-error-propogate enableNotifications="true" logException="true" doc:name="On Error propogate" doc:id="f7b8066f-4d29-4d0a-a96f-3d0363669653" >
-				<set-payload value="#[payload]" doc:name="Set Payload" doc:id="f6b50d31-2b5c-4ea5-ab4e-e4fe6279a034" />
-			</on-error-propogate> -->
+			
 			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a6859aca-a620-44ab-b098-844e70c5d314" >
 			
 							<set-payload value="#[payload]" doc:name="Set Payload" doc:id="c5614dc7-a566-40d2-adc3-d103c0693da4" />
