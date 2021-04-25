@@ -1,0 +1,132 @@
+#!groovy
+
+@Library ('latest-stable')
+def repoName= "cide-demo"
+
+def version= "21.02"
+
+def branchName = env.BRANCH_NAME
+
+def isSnapshot = false
+
+def project_info = [
+'SDLC-AIT' : "9005",
+'SDLC-SPK' : "CCDPCONAPI",
+'SDLC-REPO' : "repoName",
+'SDLC-DG' : "thanakevin85@gmail.com",
+'SDLC-Build' : "${BUILD_NUMBER}",
+'SDLC-Branch' : "${BRANCH_NAME}",
+'SDLC-Version' : "version",
+'SDLC-PubToMaster':false
+
+
+
+]
+
+def repositoryType = "snapshots"
+
+def oadScan= false
+
+
+if (project_info ['SDLC-Branch'] == "master" || project_info ['SDLC-Branch'] == ~ /^release.*/ ){
+
+repositoryType = "release"
+
+version = "${version}"+ "." + project_info['SDLC-Build']
+
+isSnapshot =false
+
+}
+
+
+if (branchName ==~ "feature/*" || branchName == ~ "bugfix/*"  ){
+
+
+
+version = "${version}-SNAPSHOT"
+
+isSnapshot =true
+
+}
+
+if (project_info['SDLC-Branch'] == ~ /^release. */) {
+oadScan = false
+
+}
+
+
+def packageParams= "-Drevision=" + version
+
+def publishAndBuildParams = "install " + packageParams
+
+env.BUILD_TYPE = isSnapshot ? 'snapshots' : 'release'
+
+mavenPipelinePlugin {
+	
+	ait= project_info['SDLC-AIT']
+	spk= project_info['SDLC-SPK']
+	repo= project_info['SDLC-REPO']
+	
+	cleanworkspace = true
+	buildParameters = packageParams
+	
+	buildDefinitionFile= "pom.xml"
+	publishMasterToRelease= project_info['SDLC-PubToMaster']
+	
+	executeCreateArtifact = true
+	
+	executePublishArtifact = project_info['SDLC-Branch'] != "master"
+artifactoryRepo = "maven"
+
+mavenLocation='maven_home'
+javaLocation = 'java_home's
+publishMode= "FILE_SPEC"
+
+publishFileList = [
+	["groupId": "com.mycompany" ,"artifactId": "cicd", "version":""+version,"artifactLocation":"target/cicd-demo-"+version+".zip"]
+	]
+
+publishParameters = publishAndBuildParams
+
+packageParameters = packageParams
+//unit test
+executeDeploy = false
+
+executeUnitTest = false
+
+unitTestFramework= "junit"
+
+unitTestFailFast= true
+
+unitTestParameters= packageParams
+
+junitTestResultPath="**/target/surefire-reports/* .xml"
+
+//code scan
+
+executeCodeScan= false
+
+scanFailFast= true
+
+sonarPropertyFile= "build/sonar-projects.properties"
+binariesPath= "target"	
+pipelineScanServerToolName= "Enterprise_Sonar_2"
+pipelineScanClientToolName= "sonar"
+
+//OAD Scan
+
+executeOADCodeSCan= oadScan
+OADProjectName = project_info['SDLC-REPO']
+OADProjectSrc = [src : "src", includePattern:"*.*",excludePattern: "*.class,*git*"]
+OADProjectBinaries = [src : "target", includePattern:"*.jar, *.war,*.ear",excludePattern: "*java,*git*"]
+
+notificationDG=project_info['SDLC-DG']
+
+
+
+
+	
+} 
+
+
+
