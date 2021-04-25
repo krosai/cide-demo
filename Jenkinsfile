@@ -14,6 +14,7 @@ bat 'mvn clean package deploy -Dusername=cgk1 -Dpassword=Thomas11$ -Dcloudhub.ap
 }
 }
 
+
 }
 
 }
