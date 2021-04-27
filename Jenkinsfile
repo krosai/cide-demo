@@ -27,6 +27,7 @@ bat 'mvn clean package deploy -Dusername=${ANYPOINT_CREDENTIALS_USR} -Dpassword=
 }
 
 
+
 }
 
 }
