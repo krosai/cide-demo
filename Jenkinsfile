@@ -10,7 +10,7 @@ bat 'mvn clean install'
 
 stage('Packaging to nexus'){
 steps {
-bat 'mvn clean package deploy -U -Dmaven.test.skip=true -s C:\settings\settings.xml'
+bat 'mvn clean package deploy -U -Dmaven.test.skip=true -s C:\\settings\\settings.xml'
 }
 }
 
