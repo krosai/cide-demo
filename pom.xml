@@ -17,6 +17,21 @@
 		<mule.maven.plugin.version>3.3.5</mule.maven.plugin.version>
 	</properties>
 
+<distributionManagement>
+<repository>
+<id>Snapshots</id>
+<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+
+</repository>
+
+<snapshotRepository>
+<id>Snapshots</id>
+<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+
+</snapshotRepository>
+
+
+</distributionManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -44,6 +59,35 @@
       </cloudHubDeployment>
                 </configuration>
 			</plugin>
+			
+			<plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <!-- replace plugin version with the latest available -->
+        <!-- https://search.maven.org/search?q=a:nxrm3-maven-plugin -->
+        <version>1.5.1</version>
+        <executions>
+        <execution>
+        <id>default-deploy</id>
+        <phase>deploy</phase>
+        <goals>
+        <goal>deploy</goal>
+        </goals>
+        </execution>
+        </executions>
+        <configuration>
+          <nexusUrl>http://localhost:8081</nexusUrl>
+          
+          <!-- The server "id" element from settings to use authentication from settings.xml-->
+          <serverId>local-nexus</serverId>
+         
+          <!-- Which repository to deploy to -->
+          <repository>Snapshots</repository>
+          
+          <!-- Skip the staging deploy mojo -->
+         <skipStaging>true</skipStaging>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
 
